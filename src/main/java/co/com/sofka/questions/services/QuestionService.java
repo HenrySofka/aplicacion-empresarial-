@@ -26,6 +26,11 @@ public class QuestionService {
                 .map(mapper.mapperQuestionToDTO());
     }
 
+    public Flux<QuestionDTO> findByUserId(String id){
+        return repository.findByUserId(id)
+                .map(mapper.mapperQuestionToDTO());
+    }
+
     public Mono<String> save(QuestionDTO questionDTO){
         return repository.save(mapper.mapperToQuestion(null).apply(questionDTO))
                 .map(Question::getId);

@@ -27,6 +27,11 @@ public class QuestionController {
         return new ResponseEntity(service.findById(id), HttpStatus.OK);
     }
 
+    @GetMapping({"/user/{id}"})
+    public ResponseEntity<Mono<QuestionDTO>> findByUserId(@PathVariable("id") String id){
+        return new ResponseEntity(service.findByUserId(id), HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Mono<String>> save(@RequestBody QuestionDTO questionDTO){
         return new ResponseEntity(service.save(questionDTO), HttpStatus.CREATED);
