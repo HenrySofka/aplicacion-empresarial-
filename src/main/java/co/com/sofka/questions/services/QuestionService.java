@@ -2,6 +2,7 @@ package co.com.sofka.questions.services;
 
 import co.com.sofka.questions.collections.Question;
 import co.com.sofka.questions.mappers.QuestionMapper;
+import co.com.sofka.questions.model.AnswerDTO;
 import co.com.sofka.questions.model.QuestionDTO;
 import co.com.sofka.questions.repositories.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,20 @@ public class QuestionService {
     public Mono<String> update(QuestionDTO questionDTO){
         return repository.save(mapper.mapperToQuestion(questionDTO.getId()).apply(questionDTO))
                 .map(question -> "Updated question: " + question.getId());
+    }
+
+
+    public Mono<String> setAnswer(QuestionDTO questionDTO, AnswerDTO answerDTO){
+        questionDTO.addAnswer(answerDTO);
+        System.out.println(questionDTO.getAnswers());
+        return repository
+                .save(mapper.mapperToQuestion(questionDTO.getId()).apply(questionDTO))
+                .flatMap(question -> Mono.just("Add answer: " + answerDTO.getId()));
+    }
+
+    public Mono<String> addAnswer(AnswerDTO answerDTO){
+        return findById(answerDTO.getQuestionId())
+                .flatMap(questionDTO -> setAnswer(questionDTO, answerDTO));
     }
 
     public Mono<Void> delete(String id){

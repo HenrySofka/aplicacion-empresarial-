@@ -17,6 +17,7 @@ public class QuestionMapper {
             question.setQuestion(dto.getQuestion());
             question.setCategory(dto.getCategory());
             question.setType(dto.getType());
+            question.setAnswers(dto.getAnswers());
             return question;
         };
     }
@@ -29,6 +30,7 @@ public class QuestionMapper {
             dto.setQuestion(question.getQuestion());
             dto.setCategory(question.getCategory());
             dto.setType(question.getType());
+            dto.setAnswers(question.getAnswers());
             return dto;
         };
     }

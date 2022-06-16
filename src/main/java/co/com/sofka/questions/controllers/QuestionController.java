@@ -1,5 +1,6 @@
 package co.com.sofka.questions.controllers;
 
+import co.com.sofka.questions.model.AnswerDTO;
 import co.com.sofka.questions.model.QuestionDTO;
 import co.com.sofka.questions.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,11 @@ public class QuestionController {
     @PutMapping("/update")
     public ResponseEntity<Mono<String>> update(@RequestBody QuestionDTO questionDTO){
         return new ResponseEntity(service.update(questionDTO), HttpStatus.OK);
+    }
+
+    @PutMapping("/add/answer")
+    public ResponseEntity<Mono<String>> addAnswer(@RequestBody AnswerDTO answerDTO){
+        return new ResponseEntity(service.addAnswer(answerDTO), HttpStatus.OK);
     }
 
     @DeleteMapping({"delete/{id}"})

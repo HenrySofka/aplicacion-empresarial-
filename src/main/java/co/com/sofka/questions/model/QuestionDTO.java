@@ -44,6 +44,9 @@ public class QuestionDTO {
         return answers;
     }
 
+    public void addAnswer(AnswerDTO answerDTO){
+        answers.add(answerDTO);
+    }
     public void setAnswers(List<AnswerDTO> answers) {
         this.answers = answers;
     }
