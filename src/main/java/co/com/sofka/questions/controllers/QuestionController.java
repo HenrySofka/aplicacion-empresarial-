@@ -31,4 +31,15 @@ public class QuestionController {
         return new ResponseEntity(service.save(questionDTO), HttpStatus.CREATED);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<Mono<String>> update(@RequestBody QuestionDTO questionDTO){
+        return new ResponseEntity(service.update(questionDTO), HttpStatus.OK);
+    }
+
+    @DeleteMapping({"delete/{id}"})
+    public ResponseEntity<Mono<QuestionDTO>> delete(@PathVariable("id") String id){
+        return new ResponseEntity(service.delete(id), HttpStatus.OK);
+    }
+
+
 }

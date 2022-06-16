@@ -30,6 +30,18 @@ public class QuestionService {
                 .map(Question::getId);
     }
 
+    public Mono<String> update(QuestionDTO questionDTO){
+        return repository.save(mapper.mapperToQuestion(questionDTO.getId()).apply(questionDTO))
+                .map(question -> "Updated question: " + question.getId());
+    }
+
+    public Mono<Void> delete(String id){
+        return repository.deleteById(id);
+    }
+
+
+
+
 
 
 }
