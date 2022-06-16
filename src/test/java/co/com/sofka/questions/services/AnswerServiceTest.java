@@ -13,8 +13,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @WebFluxTest
@@ -54,7 +56,19 @@ class AnswerServiceTest {
     }
 
     @Test
+    @DisplayName("Buscar answer by id")
     void findById() {
+        //Arrange
+        Mono<Answer> answer = getAnswer();
+        //Act
+        when(repository.findById("1111")).thenReturn(answer);
+        //Assert
+        Mono<AnswerDTO> result = service.findById("1111");
+        assertEquals(answer.block().getId(), result.block().getId());
+        assertEquals(answer.block().getQuestionId(), result.block().getQuestionId());
+        assertEquals(answer.block().getUserId(), result.block().getUserId());
+        assertEquals(answer.block().getAnswer(), result.block().getAnswer());
+        assertEquals(answer.block().getPosition(), result.block().getPosition());
     }
 
     @Test
@@ -75,6 +89,17 @@ class AnswerServiceTest {
 
     @Test
     void deleteByQuestionId() {
+    }
+
+    public Mono<Answer> getAnswer(){
+        Answer answer1 = new Answer();
+        answer1.setId("1111");
+        answer1.setQuestionId("1111");
+        answer1.setUserId("1111");
+        answer1.setAnswer("Answer 1");
+        answer1.setPosition(1);
+
+        return Mono.just(answer1);
     }
 
     public Flux<Answer> getAnswerList(){

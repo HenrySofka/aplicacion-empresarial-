@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -62,7 +63,26 @@ class AnswerControllerTest {
     }
 
     @Test
+    @DisplayName("Conexion a /answer/{id}")
     void findById() {
+        //Arrange
+        Mono<AnswerDTO> answer = getAnswer().map(mapper.mapperAnswerToDTO());
+        //Act
+        when(service.findById("1111")).thenReturn(answer);
+        //Assert
+        webTestClient.get()
+                .uri("/answer/{id}", "1111")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(AnswerDTO.class)
+                .value(answerDTOS -> {
+                    //Answer
+                    assertEquals(answer.block().getId(), answerDTOS.getId());
+                    assertEquals(answer.block().getQuestionId(), answerDTOS.getQuestionId());
+                    assertEquals(answer.block().getUserId(), answerDTOS.getUserId());
+                    assertEquals(answer.block().getAnswer(), answerDTOS.getAnswer());
+                    assertEquals(answer.block().getPosition(), answerDTOS.getPosition());
+                });
     }
 
     @Test
@@ -83,6 +103,17 @@ class AnswerControllerTest {
 
     @Test
     void deleteByQuestionId() {
+    }
+
+    public Mono<Answer> getAnswer(){
+        Answer answer1 = new Answer();
+        answer1.setId("1111");
+        answer1.setQuestionId("1111");
+        answer1.setUserId("1111");
+        answer1.setAnswer("Answer 1");
+        answer1.setPosition(1);
+
+        return Mono.just(answer1);
     }
 
     public Flux<Answer> getAnswerList(){
