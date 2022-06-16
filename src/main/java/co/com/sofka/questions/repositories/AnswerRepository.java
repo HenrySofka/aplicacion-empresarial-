@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface AnswerRepository extends ReactiveCrudRepository<Answer, String> {
-    Flux<Answer> findAllByQuestionId(String id);
+    Flux<Answer> findByQuestionId(String questionId);
 
     Mono<Void> deleteByQuestionId(String questionId);
 }

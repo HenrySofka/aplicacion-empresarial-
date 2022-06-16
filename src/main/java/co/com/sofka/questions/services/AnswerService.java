@@ -28,6 +28,10 @@ public class AnswerService {
         return repository.findById(id)
                 .map(mapper.mapperAnswerToDTO());
     }
+    public Flux<AnswerDTO> findByQuestionId(String questionId){
+        return repository.findByQuestionId(questionId)
+                .map(mapper.mapperAnswerToDTO());
+    }
 
     public Mono<String> save(AnswerDTO answerDTO){
         return repository.save(mapper.mapperToAnswer(null).apply(answerDTO))

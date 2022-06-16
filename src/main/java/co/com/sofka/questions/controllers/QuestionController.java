@@ -28,7 +28,7 @@ public class QuestionController {
     }
 
     @GetMapping({"/user/{id}"})
-    public ResponseEntity<Mono<QuestionDTO>> findByUserId(@PathVariable("id") String id){
+    public ResponseEntity<Flux<QuestionDTO>> findByUserId(@PathVariable("id") String id){
         return new ResponseEntity(service.findByUserId(id), HttpStatus.OK);
     }
 

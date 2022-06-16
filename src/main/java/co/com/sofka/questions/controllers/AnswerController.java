@@ -28,6 +28,11 @@ public class AnswerController {
         return new ResponseEntity(service.findById(id), HttpStatus.OK);
     }
 
+    @GetMapping({"/question/{questionId}"})
+    public ResponseEntity<Flux<AnswerDTO>> findByQuestionId(@PathVariable("questionId") String id){
+        return new ResponseEntity(service.findByQuestionId(id), HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Mono<String>> save(@RequestBody AnswerDTO answerDTO){
         return new ResponseEntity(service.save(answerDTO), HttpStatus.CREATED);
