@@ -46,4 +46,7 @@ public class AnswerService {
     public Mono<Void> delete(String id){
         return repository.deleteById(id);
     }
+    public Mono<Void> deleteByQuestionId(String questionId){
+        return repository.deleteByQuestionId(questionId);
+    }
 }

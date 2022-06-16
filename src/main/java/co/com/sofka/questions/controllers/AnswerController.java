@@ -47,4 +47,9 @@ public class AnswerController {
     public ResponseEntity<Mono<Void>> delete(@PathVariable("id") String id){
         return new ResponseEntity(service.delete(id), HttpStatus.OK);
     }
+
+    @DeleteMapping({"delete/question/{questionId}"})
+    public ResponseEntity<Mono<Void>> deleteByQuestionId(@PathVariable("questionId") String questionId){
+        return new ResponseEntity(service.deleteByQuestionId(questionId), HttpStatus.OK);
+    }
 }
