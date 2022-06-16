@@ -39,9 +39,4 @@ public class QuestionService {
         return repository.deleteById(id);
     }
 
-
-
-
-
-
 }

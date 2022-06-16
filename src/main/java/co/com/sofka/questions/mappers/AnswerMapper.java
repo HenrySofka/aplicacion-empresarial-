@@ -24,6 +24,7 @@ public class AnswerMapper {
     public Function<Answer, AnswerDTO> mapperAnswerToDTO(){
         return answer -> {
             AnswerDTO dto = new AnswerDTO();
+            dto.setId(answer.getId());
             dto.setAnswer(answer.getAnswer());
             dto.setQuestionId(answer.getQuestionId());
             dto.setUserId(answer.getUserId());
