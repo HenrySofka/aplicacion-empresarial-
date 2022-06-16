@@ -86,26 +86,29 @@ class AnswerControllerTest {
     }
 
     @Test
+    @DisplayName("Conexion a /answer/question/{id}")
     void findByQuestionId() {
+        //Arrange
+        Flux<AnswerDTO> list = getAnswerList().map(mapper.mapperAnswerToDTO());
+        //Act
+        when(service.findByQuestionId("q1111")).thenReturn(list);
+        //Assert
+        webTestClient.get()
+                .uri("/answer/question/{questionId}", "q1111")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(AnswerDTO.class)
+                .value(answerDTOS -> {
+                    //Answer1
+                    assertEquals(list.blockFirst().getId(), answerDTOS.get(0).getId());
+                    assertEquals(list.blockFirst().getQuestionId(), answerDTOS.get(0).getQuestionId());
+                    assertEquals(list.blockFirst().getUserId(), answerDTOS.get(0).getUserId());
+                    assertEquals(list.blockFirst().getAnswer(), answerDTOS.get(0).getAnswer());
+                    assertEquals(list.blockFirst().getPosition(), answerDTOS.get(0).getPosition());
+                });
     }
 
-    @Test
-    void save() {
-    }
-
-    @Test
-    void update() {
-    }
-
-    @Test
-    void delete() {
-    }
-
-    @Test
-    void deleteByQuestionId() {
-    }
-
-    public Mono<Answer> getAnswer(){
+    public Mono<Answer> getAnswer() {
         Answer answer1 = new Answer();
         answer1.setId("1111");
         answer1.setQuestionId("1111");
@@ -116,18 +119,18 @@ class AnswerControllerTest {
         return Mono.just(answer1);
     }
 
-    public Flux<Answer> getAnswerList(){
+    public Flux<Answer> getAnswerList() {
         Answer answer1 = new Answer();
-        answer1.setId("1111");
-        answer1.setQuestionId("1111");
-        answer1.setUserId("1111");
+        answer1.setId("i1111");
+        answer1.setQuestionId("q1111");
+        answer1.setUserId("u1111");
         answer1.setAnswer("Answer 1");
         answer1.setPosition(1);
 
         Answer answer2 = new Answer();
-        answer2.setId("2222");
-        answer2.setQuestionId("2222");
-        answer2.setUserId("2222");
+        answer2.setId("i2222");
+        answer2.setQuestionId("q2222");
+        answer2.setUserId("u2222");
         answer2.setAnswer("Answer 2");
         answer2.setPosition(2);
 

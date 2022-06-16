@@ -61,9 +61,9 @@ class AnswerServiceTest {
         //Arrange
         Mono<Answer> answer = getAnswer();
         //Act
-        when(repository.findById("1111")).thenReturn(answer);
+        when(repository.findById("i1111")).thenReturn(answer);
         //Assert
-        Mono<AnswerDTO> result = service.findById("1111");
+        Mono<AnswerDTO> result = service.findById("i1111");
         assertEquals(answer.block().getId(), result.block().getId());
         assertEquals(answer.block().getQuestionId(), result.block().getQuestionId());
         assertEquals(answer.block().getUserId(), result.block().getUserId());
@@ -72,30 +72,28 @@ class AnswerServiceTest {
     }
 
     @Test
-    void findByQuestionId() {
-    }
+    @DisplayName("Buscar answer by QuestionId")
+    void findByQuestionIdTest() {
+        //Arrange
+        Flux<Answer> list = getAnswerList();
+        //Act
+        when(repository.findByQuestionId("q1111")).thenReturn(list);
+        //Assert
+        //Answer1
+        Flux<AnswerDTO> result = service.findByQuestionId("q1111");
+        assertEquals(list.blockFirst().getId(), result.blockFirst().getId());
+        assertEquals(list.blockFirst().getQuestionId(), result.blockFirst().getQuestionId());
+        assertEquals(list.blockFirst().getUserId(), result.blockFirst().getUserId());
+        assertEquals(list.blockFirst().getAnswer(), result.blockFirst().getAnswer());
+        assertEquals(list.blockFirst().getPosition(), result.blockFirst().getPosition());
 
-    @Test
-    void save() {
-    }
-
-    @Test
-    void update() {
-    }
-
-    @Test
-    void delete() {
-    }
-
-    @Test
-    void deleteByQuestionId() {
     }
 
     public Mono<Answer> getAnswer(){
         Answer answer1 = new Answer();
-        answer1.setId("1111");
-        answer1.setQuestionId("1111");
-        answer1.setUserId("1111");
+        answer1.setId("i1111");
+        answer1.setQuestionId("q1111");
+        answer1.setUserId("u1111");
         answer1.setAnswer("Answer 1");
         answer1.setPosition(1);
 
@@ -104,16 +102,16 @@ class AnswerServiceTest {
 
     public Flux<Answer> getAnswerList(){
         Answer answer1 = new Answer();
-        answer1.setId("1111");
-        answer1.setQuestionId("1111");
-        answer1.setUserId("1111");
+        answer1.setId("i1111");
+        answer1.setQuestionId("q1111");
+        answer1.setUserId("u1111");
         answer1.setAnswer("Answer 1");
         answer1.setPosition(1);
 
         Answer answer2 = new Answer();
-        answer2.setId("2222");
-        answer2.setQuestionId("2222");
-        answer2.setUserId("2222");
+        answer2.setId("i2222");
+        answer2.setQuestionId("q2222");
+        answer2.setUserId("u2222");
         answer2.setAnswer("Answer 2");
         answer2.setPosition(2);
 
