@@ -7,8 +7,7 @@ import co.com.sofka.questions.repositories.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
-
-import java.util.List;
+import reactor.core.publisher.Mono;
 
 @Service
 public class QuestionService {
@@ -16,9 +15,21 @@ public class QuestionService {
     private QuestionRepository repository;
     private QuestionMapper mapper = new QuestionMapper();
 
-    public Flux<QuestionDTO> findByAll(){
+    public Flux<QuestionDTO> findAll(){
         return repository.findAll()
                 .map(mapper.mapperQuestionToDTO());
     }
+
+    public Mono<QuestionDTO> findById(String id){
+        return repository.findById(id)
+                .map(mapper.mapperQuestionToDTO());
+    }
+
+    public Mono<String> save(QuestionDTO questionDTO){
+        return repository.save(mapper.mapperToQuestion(null).apply(questionDTO))
+                .map(Question::getId);
+    }
+
+
 
 }
